@@ -1,0 +1,19 @@
+{
+  "name": "tradepost",
+  "version": "1.0.0",
+  "description": "Application that allows users to post and trade shifts with each other.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cameron Stansell",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "lodash": "^4.17.4",
+    "log-timestamp": "^0.1.2",
+    "mongodb": "^2.2.33",
+    "mongoose": "^4.13.4"
+  }
+}
