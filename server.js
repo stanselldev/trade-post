@@ -12,7 +12,7 @@ const {Shift} = require('./models/shift');
 const app = express();
 const port = process.env.PORT || 3000;
 
-mongoose.connect('mongodb://localhost:27017/TradePost', () => {
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/TradePost', () => {
   console.log('Connected to database');
 });
 
