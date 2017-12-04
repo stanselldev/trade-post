@@ -45,7 +45,7 @@ app.delete('/shifts/:id', (req, res) => {
   Shift.findOneAndRemove({
     _id: id
   }).then((shift) => {
-    res.send(shift);
+    res.json(shift);
   }, (e) => {
     res.status(400).send(e);
   });
@@ -56,7 +56,7 @@ app.get('/shifts/:id', (req, res) => {
   Shift.findOne({
     _id: id
   }).then((shift) => {
-    res.send(shift);
+    res.json(shift);
   }, (e) => {
     res.status(400).send(e);
   });
@@ -64,22 +64,34 @@ app.get('/shifts/:id', (req, res) => {
 
 app.put('/shifts/:id', (req, res) => {
   var id = req.params.id;
-
-  Shift.findOneAndUpdate({
-    _id: id,
-  }, {$set: {
+  var request = new Shift({
     name: req.body.name,
     date: req.body.date,
     start: req.body.start,
     end: req.body.end
-  }}, {new: true}).then((todo) => {
-    if (!todo) {
-      return res.status(404).send()
-    };
+  });
 
-    res.send({todo});
+  Shift.findOneAndUpdate({
+    _id: id,
+  }, {$push: {requests: request}}, {new: true}).then((shift) => {
+
+    res.json(shift);
   }).catch((e) => {
-    res.status(400).send();
+    res.status(400).send(e);
+  });
+});
+
+app.put('/shifts/delete/:id/:request', (req, res) => {
+  var id = req.params.id;
+  var request = req.params.request;
+
+  Shift.findOneAndUpdate({
+    _id: id
+  }, {$pull: {requests: {_id: request}}
+}, {new: true}).then((doc) => {
+    res.status(200).json(doc);
+  }, (e) => {
+    console.log(e);
   });
 });
 

@@ -77,17 +77,18 @@
                 <td>{{shift.end}}</td>
               </tr>
               <tr>
-                <td><input class="form-control" ng-model="requests.name"></td>
-                <td><input class="form-control" ng-model="requests.date"></td>
-                <td><input class="form-control" ng-model="requests.start"></td>
-                <td><input class="form-control" ng-model="requests.end"></td>
+                <td><input class="form-control" ng-model="request.name"></td>
+                <td><input class="form-control" ng-model="request.date"></td>
+                <td><input class="form-control" ng-model="request.start"></td>
+                <td><input class="form-control" ng-model="request.end"></td>
                 <td><button class="btn btn-primary" ng-click="requestShift(expanded[0]._id)">+</button></td>
               </tr>
               <tr ng-repeat="request in requests">
-                <td>{{shift.name}}</td>
-                <td>{{shift.date}}</td>
-                <td>{{shift.start}}</td>
-                <td>{{shift.end}}</td>
+                <td>{{request.name}}</td>
+                <td>{{request.date}}</td>
+                <td>{{request.start}}</td>
+                <td>{{request.end}}</td>
+                <td><button class="btn btn-danger" ng-click="deleteRequest(expanded[0]._id, request._id)">x</button></td>
               </tr>
             </tbody>
           </thead>

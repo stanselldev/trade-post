@@ -25,28 +25,32 @@ var Shift = mongoose.model('Shift', {
     minLength: 1,
     trim: true
   },
-  requests: {
+  requests: [{
     name: {
+      required: true,
       type: String,
       minLength: 1,
       trim: true
     },
     date: {
+      required: true,
       type: String,
       minLength: 1,
       trim: true
     },
     start: {
+      required: true,
       type: String,
       minLength: 1,
       trim: true
     },
     end: {
+      required: true,
       type: String,
       minLength: 1,
       trim: true
     }
-  }
+  }]
 });
-
+// override objectID generation, auto increment
 module.exports = {Shift};

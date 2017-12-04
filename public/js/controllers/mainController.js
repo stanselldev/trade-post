@@ -1,31 +1,8 @@
 app.controller('MainController', ['$scope', '$http', '$timeout', function($scope, $http, $timeout) {
   $scope.openShifts = [{name: 'Cameron', date: '24/11/2017', start: '6AM', end: '2:30PM'}];
   $scope.shifts = [];
-  $scope.expanded = [];
-  $scope.requests = [];
-
-
-  $scope.expand = (id) => {
-    $http({method: 'GET', url: '/shifts/' + id})
-    .then((res) => {
-      $scope.expanded = new Array(res.data);
-    }, (e) => {
-      console.log(e.data);
-    });
-  };
-
-  $scope.requestShift = (id) => {
-    console.log($scope.requests);
-    $http({
-      method: 'PUT',
-      url: '/shifts/' + id,
-      data: $scope.requests
-    }).then((res) => {
-      refresh();
-    }, (e) => {
-      console.log(e.data);
-    });
-  };
+  $scope.expanded = null;
+  $scope.requests = null;
 
   var refresh = () => {
     $http({
@@ -33,9 +10,7 @@ app.controller('MainController', ['$scope', '$http', '$timeout', function($scope
       url: '/shifts'
     }).then((res) => {
       $scope.shifts = res.data;
-      $scope.shift = null;
-      $scope.requests = new Array(res.data.requests);
-      $scope.request = null;
+      $scope.requests = res.data[0].requests;
     }, (e) => {
       console.log(e.data);
     });
@@ -43,13 +18,48 @@ app.controller('MainController', ['$scope', '$http', '$timeout', function($scope
 
   refresh();
 
+  $scope.expand = (id) => {
+    $http({method: 'GET', url: '/shifts/' + id})
+    .then((res) => {
+      $scope.expanded = new Array(res.data);
+      $scope.requests = $scope.expanded[0].requests;
+    }, (e) => {
+      console.log(e);
+    });
+  };
+
+  $scope.deleteRequest = (id, request) => {
+    $http({
+      method: 'PUT',
+      url: `/shifts/delete/${id}/${request}`
+    }).then((doc) => {
+      $scope.requests = doc.data.requests
+    }, (e) => {
+      console.log(e);
+    });
+  };
+
+  $scope.requestShift = (id) => {
+    $http({
+      method: 'PUT',
+      url: '/shifts/' + id,
+      data: $scope.request
+    }).then((doc) => {
+      $scope.requests = doc.data.requests
+      $scope.request = null;
+    }, (e) => {
+      console.log(e);
+    });
+  };
+
   $scope.add = () => {
     $http({
       method: 'POST',
       url: '/shifts',
       data: $scope.shift
-    }).then((res) => {
-      refresh();
+    }).then((doc) => {
+      $scope.shifts.push(doc.data);
+      $scope.shift = null;
     }, (e) => {
       console.log(e.data);
     });
