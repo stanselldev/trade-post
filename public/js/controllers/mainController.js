@@ -11,6 +11,8 @@ app.controller('MainController', ['$scope', '$http', '$timeout', function($scope
     }).then((res) => {
       $scope.shifts = res.data;
       $scope.requests = res.data[0].requests;
+      $scope.expanded = null;
+      $scope.requests = null;
     }, (e) => {
       console.log(e.data);
     });
